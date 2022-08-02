@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.7">
+      <module name="RocketNews.apolloWrapper" target="11" />
+      <module name="RocketNews.app" target="11" />
+      <module name="RocketNews.Commons" target="11" />
+      <module name="RocketNews.Contact" target="11" />
+      <module name="RocketNews.Home" target="11" />
+      <module name="RocketNews.Launches" target="11" />
+      <module name="RocketNews.Login" target="11" />
+      <module name="RocketNews.Navigation" target="11" />
+      <module name="RocketNews.Register" target="11" />
+      <module name="RocketNews.RocketNewsCache" target="11" />
+      <module name="RocketNews.RocketNewsDatabase" target="11" />
+      <module name="RocketNews.RocketNewsTheme" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,11 @@
+query MissionInfo($id: ID!) {
+    mission(id: $id) {
+        name
+        id
+        description
+        manufacturers
+        website
+        twitter
+        wikipedia
+    }
+}

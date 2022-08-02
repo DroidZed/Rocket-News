@@ -1,0 +1,75 @@
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        compose true
+        viewBinding true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion kotlin_compiler_version
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    kapt 'net.lachlanmckee:hilt-compose-navigation-factory-compiler:1.1.0'
+
+    implementation project(':RocketNewsDatabase')
+    implementation project(':RocketNewsCache')
+    implementation project(':SharedLib')
+
+    implementation project(':Commons')
+    implementation project(':RocketNewsTheme')
+
+    kapt "com.google.dagger:hilt-compiler:$dagger_hilt_version"
+
+    implementation 'net.lachlanmckee:hilt-compose-navigation-factory:1.1.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_cor_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
+    implementation "com.google.dagger:dagger:$dagger_hilt_version"
+    implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
+    implementation "androidx.appcompat:appcompat:$app_compat_version"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+    implementation "androidx.core:core-ktx:$android_core_version"
+    implementation "androidx.compose.ui:ui:$compose_ui_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
+    implementation "androidx.compose.material:material:$compose_material_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_material_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_version"
+    implementation "androidx.activity:activity-compose:$activity_compose_version"
+    implementation "androidx.legacy:legacy-support-v4:$legacy_support_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclereview_version"
+
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coro_test_version"
+
+    androidTestImplementation "androidx.test.ext:junit:$andr_test_ext_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+}

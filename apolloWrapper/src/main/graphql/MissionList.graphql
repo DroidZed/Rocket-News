@@ -1,0 +1,7 @@
+query MissionList($limit: Int, $offset: Int) {
+    missions(limit: $limit, offset: $offset) {
+        id
+        name
+        description
+    }
+}

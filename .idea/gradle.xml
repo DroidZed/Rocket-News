@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Commons" />
+            <option value="$PROJECT_DIR$/Contact" />
+            <option value="$PROJECT_DIR$/Home" />
+            <option value="$PROJECT_DIR$/Launches" />
+            <option value="$PROJECT_DIR$/Login" />
+            <option value="$PROJECT_DIR$/Register" />
+            <option value="$PROJECT_DIR$/RocketNewsCache" />
+            <option value="$PROJECT_DIR$/RocketNewsDatabase" />
+            <option value="$PROJECT_DIR$/RocketNewsTheme" />
+            <option value="$PROJECT_DIR$/SharedLib" />
+            <option value="$PROJECT_DIR$/apolloWrapper" />
+            <option value="$PROJECT_DIR$/app" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

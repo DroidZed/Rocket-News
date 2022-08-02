@@ -1,0 +1,14 @@
+query DragonList($limit: Int, $offset: Int) {
+    dragons(limit: $limit, offset: $offset) {
+        id
+        name
+        active
+        crew_capacity
+        description
+        diameter {
+            meters
+        }
+        first_flight
+        type
+    }
+}

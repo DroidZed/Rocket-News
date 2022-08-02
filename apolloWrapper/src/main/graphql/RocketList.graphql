@@ -1,0 +1,14 @@
+query RocketList($limit: Int, $offset: Int) {
+    rockets(limit: $limit, offset: $offset) {
+        id
+        company
+        name
+        description
+        mass {
+            kg
+        }
+        height {
+            meters
+        }
+    }
+}

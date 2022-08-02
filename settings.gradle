@@ -1,0 +1,27 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "RocketNews"
+include ':app'
+include ':apolloWrapper'
+include ':RocketNewsDatabase'
+include ':RocketNewsCache'
+include ':Register'
+include ':SharedLib'
+include ':Commons'
+include ':Login'
+include ':Launches'
+include ':Home'
+include ':Contact'
+include ':RocketNewsTheme'
