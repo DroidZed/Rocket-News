@@ -1,0 +1,26 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+    id "com.apollographql.apollo3" version "$apollo_runtime_version"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_cor_version"
+    implementation "com.apollographql.apollo3:apollo-runtime:$apollo_runtime_version"
+    implementation "com.apollographql.apollo3:apollo-normalized-cache-sqlite:$apollo_runtime_version"
+
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinx_coro_test_version"
+}
+
+apollo {
+    packageName.set("tech.droidzed.apollowrapper")
+    schemaFile = file("src/main/graphql/schema.graphqls")
+    generateKotlinModels.set(true)
+    generateOptionalOperationVariables.set(false)
+}

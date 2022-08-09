@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7">
-      <module name="RocketNews.apolloWrapper" target="11" />
+    <bytecodeTargetLevel target="1.8">
       <module name="RocketNews.app" target="11" />
-      <module name="RocketNews.Commons" target="11" />
-      <module name="RocketNews.Contact" target="11" />
-      <module name="RocketNews.Home" target="11" />
-      <module name="RocketNews.Launches" target="11" />
-      <module name="RocketNews.Login" target="11" />
+      <module name="RocketNews.features.Contact" target="11" />
+      <module name="RocketNews.features.Dragons" target="11" />
+      <module name="RocketNews.features.Home" target="11" />
+      <module name="RocketNews.features.Launches" target="11" />
+      <module name="RocketNews.features.Login" target="11" />
+      <module name="RocketNews.features.Missions" target="11" />
+      <module name="RocketNews.features.Profile" target="11" />
+      <module name="RocketNews.features.Register" target="11" />
+      <module name="RocketNews.features.Rockets" target="11" />
+      <module name="RocketNews.features.SpaceX_Info" target="11" />
+      <module name="RocketNews.libraries.Commons" target="11" />
+      <module name="RocketNews.libraries.RocketNewsDatabase" target="11" />
+      <module name="RocketNews.libraries.RocketNewsTheme" target="11" />
+      <module name="RocketNews.libraries.SessionManagement" target="11" />
       <module name="RocketNews.Navigation" target="11" />
-      <module name="RocketNews.Register" target="11" />
       <module name="RocketNews.RocketNewsCache" target="11" />
-      <module name="RocketNews.RocketNewsDatabase" target="11" />
-      <module name="RocketNews.RocketNewsTheme" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

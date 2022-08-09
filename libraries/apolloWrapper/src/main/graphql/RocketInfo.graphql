@@ -1,0 +1,78 @@
+query RocketInfo($id: ID!) {
+    rocket(id: $id) {
+        active
+        boosters
+        company
+        cost_per_launch
+        country
+        description
+        diameter {
+            meters
+        }
+        engines {
+            layout
+            number
+            propellant_1
+            propellant_2
+            engine_loss_max
+            thrust_sea_level {
+                kN
+            }
+            thrust_to_weight
+            thrust_vacuum {
+                kN
+            }
+            type
+            version
+        }
+        first_flight
+        first_stage {
+            burn_time_sec
+            engines
+            fuel_amount_tons
+            reusable
+            thrust_sea_level {
+                kN
+            }
+            thrust_vacuum {
+                kN
+            }
+        }
+        height {
+            feet
+        }
+        landing_legs {
+            material
+            number
+        }
+        mass {
+            kg
+        }
+        name
+        payload_weights {
+            kg
+        }
+        second_stage {
+            burn_time_sec
+            engines
+            fuel_amount_tons
+            payloads {
+                composite_fairing {
+                    diameter {
+                        meters
+                    }
+                    height {
+                        meters
+                    }
+                }
+                option_1
+            }
+            thrust {
+                kN
+            }
+        }
+        stages
+        success_rate_pct
+        type
+    }
+}

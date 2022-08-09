@@ -3,89 +3,42 @@ package tech.droidzed.rocketnews
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Spacer
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import net.lachlanmckee.hilt.compose.navigation.factory.addNavigationFactoriesNavigation
-import tech.droidzed.apptheme.theme.RocketNewsTheme
-import tech.droidzed.sharedlib.Routes
+import tech.droidzed.login.utils.LoginViewModel
+import tech.droidzed.register.utils.RegisterViewModel
+import tech.droidzed.rocketnews.navigation.NavGraph
+import tech.droidzed.theme.RocketNewsTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+
+	private val registerViewModel: RegisterViewModel by viewModels()
+	private val loginViewModel: LoginViewModel by viewModels()
+
 	override fun onCreate(savedInstanceState: Bundle?) {
+
+
 		super.onCreate(savedInstanceState)
 		setContent {
+
+			val navController = rememberNavController()
+
 			// app nav
 			RocketNewsTheme {
 				Surface(
 					modifier = Modifier.fillMaxSize(),
 					color = MaterialTheme.colors.background
 				) {
-					JetpackNavigationHiltApp()
+					NavGraph(navController, registerViewModel, loginViewModel)
 				}
 			}
 		}
-	}
-
-	@Composable
-	fun JetpackNavigationHiltApp() {
-
-		val navController = rememberNavController()
-
-		Scaffold(
-			content = {
-				val context = LocalContext.current
-				NavHost(
-					navController,
-					startDestination = tech.droidzed.sharedlib.Routes.Home.route
-				) {
-					addNavigationFactoriesNavigation(context, navController)
-				}
-			},
-			bottomBar = {
-				BottomAppBar {
-					NavigationButton(
-						navController = navController,
-						route = tech.droidzed.sharedlib.Routes.Home.route,
-						label = "Home"
-					)
-					Spacer(Modifier.weight(1f, true))
-					NavigationButton(
-						navController = navController,
-						route = tech.droidzed.sharedlib.Routes.Contact.route,
-						label = "Contact"
-					)
-				}
-			}
-		)
-	}
-
-	@Composable
-	fun NavigationButton(navController: NavController, route: String, label: String) {
-		Button(
-			onClick = {
-				navController.popBackStack(
-					route = tech.droidzed.sharedlib.Routes.Home.route,
-					inclusive = false
-				)
-				if (route != tech.droidzed.sharedlib.Routes.Home.route) {
-					navController.navigate(route) {
-						launchSingleTop = true
-					}
-				}
-			},
-			content = {
-				Text(label, color = Color.White)
-			}
-		)
 	}
 }

@@ -10,18 +10,26 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/Commons" />
-            <option value="$PROJECT_DIR$/Contact" />
-            <option value="$PROJECT_DIR$/Home" />
-            <option value="$PROJECT_DIR$/Launches" />
-            <option value="$PROJECT_DIR$/Login" />
-            <option value="$PROJECT_DIR$/Register" />
-            <option value="$PROJECT_DIR$/RocketNewsCache" />
-            <option value="$PROJECT_DIR$/RocketNewsDatabase" />
-            <option value="$PROJECT_DIR$/RocketNewsTheme" />
-            <option value="$PROJECT_DIR$/SharedLib" />
-            <option value="$PROJECT_DIR$/apolloWrapper" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/Contact" />
+            <option value="$PROJECT_DIR$/features/Dragons" />
+            <option value="$PROJECT_DIR$/features/Home" />
+            <option value="$PROJECT_DIR$/features/Launches" />
+            <option value="$PROJECT_DIR$/features/Login" />
+            <option value="$PROJECT_DIR$/features/Missions" />
+            <option value="$PROJECT_DIR$/features/Profile" />
+            <option value="$PROJECT_DIR$/features/Register" />
+            <option value="$PROJECT_DIR$/features/Rockets" />
+            <option value="$PROJECT_DIR$/features/SpaceX_Info" />
+            <option value="$PROJECT_DIR$/libraries" />
+            <option value="$PROJECT_DIR$/libraries/Commons" />
+            <option value="$PROJECT_DIR$/libraries/RocketNavigation" />
+            <option value="$PROJECT_DIR$/libraries/RocketNewsDatabase" />
+            <option value="$PROJECT_DIR$/libraries/RocketNewsTheme" />
+            <option value="$PROJECT_DIR$/libraries/SessionManagement" />
+            <option value="$PROJECT_DIR$/libraries/SharedLib" />
+            <option value="$PROJECT_DIR$/libraries/apolloWrapper" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -13,15 +13,25 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "RocketNews"
+
+// main app module
 include ':app'
-include ':apolloWrapper'
-include ':RocketNewsDatabase'
-include ':RocketNewsCache'
-include ':Register'
-include ':SharedLib'
-include ':Commons'
-include ':Login'
-include ':Launches'
-include ':Home'
-include ':Contact'
-include ':RocketNewsTheme'
+// features
+include ':features:Register'
+include ':features:Login'
+include ':features:Launches'
+include ':features:Home'
+include ':features:Profile'
+include ':features:SpaceX_Info'
+include ':features:Missions'
+include ':features:Rockets'
+include ':features:Dragons'
+include ':features:Contact'
+// libs
+include ':libraries:apolloWrapper'
+include ':libraries:RocketNewsDatabase'
+include ':libraries:SharedLib'
+include ':libraries:Commons'
+include ':libraries:RocketNewsTheme'
+include ':libraries:RocketNavigation'
+include ':libraries:SessionManagement'
