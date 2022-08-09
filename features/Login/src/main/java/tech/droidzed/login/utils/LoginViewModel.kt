@@ -144,24 +144,4 @@ class LoginViewModel @Inject constructor(private val userRepository: UserReposit
 
 		return Integer.parseInt(verify) == preCalculatedValue
 	}
-
-	// Events
-	fun onUsernameValueChange(newValue: String) {
-		username = newValue
-		usernameError = false
-	}
-
-	fun onPasswordValueChange(newValue: String) {
-		password = newValue
-		passwordError = false
-	}
-
-	fun onVerifyValueChange(newValue: String) {
-		verify = newValue
-		verifyError = false
-	}
-
-	fun onVisibilityUpdate() {
-		passwordVisible = !passwordVisible
-	}
 }

@@ -135,22 +135,4 @@ class RegisterViewModel @Inject constructor(private val userRepository: UserRepo
 		}
 	}
 
-	// Events
-	fun onVisibilityUpdate() {
-		passwordVisible = !passwordVisible
-	}
-
-	fun onPasswordValueChange(newValue: String) {
-		password = newValue
-	}
-
-	fun onConfirmPasswordValueChange(newValue: String) {
-		confirmPassword = newValue
-	}
-
-	fun onUsernameValueChange(newValue: String) {
-		username = newValue
-		usernameError = false
-	}
-
 }
