@@ -1,9 +1,10 @@
 package tech.droidzed.login.screens
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
@@ -25,35 +27,36 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import tech.droidzed.commons.layout.CenteredContainer
-import tech.droidzed.commons.layout.ComponentStyles
-import tech.droidzed.commons.layout.CustomSurface
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import tech.droidzed.login.utils.LoginViewModel
 import tech.droidzed.theme.Purple200
 
 @Composable
-fun LoginScreen(
-	goHome: () -> Unit,
-	goRegister: () -> Unit,
-	loginViewModel: LoginViewModel
-) {
+fun LoginScreen(navHostController: NavHostController) {
 
 	// component state
 	val context = LocalContext.current
 	val focusManager = LocalFocusManager.current
 
+	val loginViewModel = hiltViewModel<LoginViewModel>()
+
 	// ui components
-	CustomSurface(styles = ComponentStyles(padding = 10.dp)) {
+	LazyColumn(
+		userScrollEnabled = true,
+		verticalArrangement = Arrangement.spacedBy(10.dp),
+		horizontalAlignment = Alignment.CenterHorizontally,
+		contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+	) {
 
-		CenteredContainer(styles = ComponentStyles(0.dp, 5.dp, 20.dp)) {
-
+		item {
 			Text(
 				text = "Login",
 				style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive)
 			)
+		}
 
-			Spacer(modifier = Modifier.height(10.dp))
-
+		item {
 			OutlinedTextField(
 				modifier = Modifier.fillMaxWidth(),
 				keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -65,12 +68,14 @@ fun LoginScreen(
 				value = loginViewModel.username,
 				isError = loginViewModel.usernameError,
 				singleLine = true,
-				onValueChange = { loginViewModel.username = it; loginViewModel.usernameError = false  },
-				label = { Text("Username")  }
+				onValueChange = {
+					loginViewModel.username = it; loginViewModel.usernameError = false
+				},
+				label = { Text("Username") }
 			)
+		}
 
-			Spacer(modifier = Modifier.height(10.dp))
-
+		item {
 			OutlinedTextField(
 				value = loginViewModel.password,
 				singleLine = true,
@@ -95,17 +100,22 @@ fun LoginScreen(
 						if (loginViewModel.passwordVisible) "Hide password" else "Show password"
 
 					IconButton(
-						onClick = { loginViewModel.passwordVisible = !loginViewModel.passwordVisible },
+						onClick = {
+							loginViewModel.passwordVisible =
+								!loginViewModel.passwordVisible
+						},
 						content = { Icon(imageVector = image, description) })
 				},
 
-				onValueChange = { loginViewModel.password = it; loginViewModel.passwordError = false   },
+				onValueChange = {
+					loginViewModel.password = it; loginViewModel.passwordError = false
+				},
 
 				label = { Text("Password") }
 			)
+		}
 
-			Spacer(modifier = Modifier.height(10.dp))
-
+		item {
 			OutlinedTextField(
 				modifier = Modifier.fillMaxWidth(),
 				keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -117,21 +127,23 @@ fun LoginScreen(
 				value = loginViewModel.verify,
 				isError = loginViewModel.verifyError,
 				singleLine = true,
-				onValueChange = { loginViewModel.verify = it; loginViewModel.verifyError = false   },
-				label = { Text("Verification")  },
-				placeholder = { Text("What is the answer to ${loginViewModel.randomVerificationTest}?")  }
+				onValueChange = {
+					loginViewModel.verify = it; loginViewModel.verifyError = false
+				},
+				label = { Text("Verification") },
+				placeholder = { Text("What is the answer to ${loginViewModel.randomVerificationTest}?") }
 			)
+		}
 
-			Spacer(modifier = Modifier.height(10.dp))
-
+		item {
 			Button(
 				content = { Text(text = "Login") },
 				modifier = Modifier.fillMaxWidth(),
-				onClick = { loginViewModel.handleLogin(goHome, context) }
+				onClick = { loginViewModel.handleLogin(navHostController, context) }
 			)
+		}
 
-			Spacer(modifier = Modifier.height(5.dp))
-
+		item {
 			Row {
 				Text(
 					text = "Don't have an account? ",
@@ -144,7 +156,7 @@ fun LoginScreen(
 						fontFamily = FontFamily.Default,
 						color = Purple200
 					),
-					onClick = { goRegister() }
+					onClick = { loginViewModel.teleportToRegister(navHostController) }
 				)
 			}
 		}

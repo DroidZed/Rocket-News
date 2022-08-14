@@ -1,9 +1,10 @@
 package tech.droidzed.register.screens
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
@@ -25,33 +27,31 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import tech.droidzed.commons.layout.CenteredContainer
-import tech.droidzed.commons.layout.ComponentStyles
-import tech.droidzed.commons.layout.CustomSurface
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import tech.droidzed.register.utils.RegisterViewModel
 import tech.droidzed.theme.Purple200
 
 
 @Composable
-fun RegisterScreen(
-	goHome: () -> Unit,
-	goLogin: () -> Unit,
-	registerViewModel: RegisterViewModel
-) {
+fun RegisterScreen(navHostController: NavHostController) {
+
+	val registerViewModel = hiltViewModel<RegisterViewModel>()
 
 	val context = LocalContext.current
 	val focusManager = LocalFocusManager.current
 
-
 	// ui components
-	CustomSurface(styles = ComponentStyles(padding = 10.dp)) {
+	LazyColumn(
+		userScrollEnabled = true,
+		verticalArrangement = Arrangement.spacedBy(10.dp),
+		horizontalAlignment = Alignment.CenterHorizontally,
+		contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+	) {
 
-		CenteredContainer(styles = ComponentStyles(0.dp, 0.dp, 0.dp)) {
+		item { Text(text = "Sign Up", fontSize = 25.sp) }
 
-			Text(text = "Sign Up", fontSize = 25.sp)
-
-			Spacer(modifier = Modifier.height(20.dp))
-
+		item {
 			OutlinedTextField(
 				modifier = Modifier.fillMaxWidth(),
 				value = registerViewModel.username,
@@ -63,12 +63,15 @@ fun RegisterScreen(
 						FocusDirection.Down
 					)
 				}),
-				onValueChange = { registerViewModel.username = it; registerViewModel.usernameError = false },
+				onValueChange = {
+					registerViewModel.username = it; registerViewModel.usernameError =
+					false
+				},
 				label = { Text("Username") }
 			)
+		}
 
-			Spacer(modifier = Modifier.height(20.dp))
-
+		item {
 			OutlinedTextField(
 				modifier = Modifier.fillMaxWidth(),
 				value = registerViewModel.password,
@@ -92,17 +95,23 @@ fun RegisterScreen(
 						if (registerViewModel.passwordVisible) "Hide password" else "Show password"
 
 					IconButton(
-						onClick = { registerViewModel.passwordVisible = !registerViewModel.passwordVisible },
+						onClick = {
+							registerViewModel.passwordVisible =
+								!registerViewModel.passwordVisible
+						},
 						content = { Icon(imageVector = image, description) }
 					)
 				},
-				onValueChange = { registerViewModel.password = it; registerViewModel.passwordError = false },
+				onValueChange = {
+					registerViewModel.password = it; registerViewModel.passwordError =
+					false
+				},
 
 				label = { Text("Password") }
 			)
+		}
 
-			Spacer(modifier = Modifier.height(20.dp))
-
+		item {
 			OutlinedTextField(
 				modifier = Modifier.fillMaxWidth(),
 				value = registerViewModel.confirmPassword,
@@ -126,7 +135,10 @@ fun RegisterScreen(
 						if (registerViewModel.passwordVisible) "Hide password" else "Show password"
 
 					IconButton(
-						onClick = { registerViewModel.passwordVisible = !registerViewModel.passwordVisible },
+						onClick = {
+							registerViewModel.passwordVisible =
+								!registerViewModel.passwordVisible
+						},
 						content = { Icon(imageVector = image, description) }
 					)
 				},
@@ -134,15 +146,17 @@ fun RegisterScreen(
 
 				label = { Text("Confirm Password") }
 			)
+		}
 
-			Spacer(modifier = Modifier.height(20.dp))
-
+		item {
 			Button(
 				modifier = Modifier.fillMaxWidth(),
 				content = { Text(text = "Register") },
-				onClick = { registerViewModel.registerUser(goHome, context) }
+				onClick = { registerViewModel.registerUser(navHostController, context) }
 			)
+		}
 
+		item {
 			Row {
 				Text(
 					text = "Already have an account? ",
@@ -156,7 +170,7 @@ fun RegisterScreen(
 						fontFamily = FontFamily.Default,
 						color = Purple200
 					),
-					onClick = { goLogin() }
+					onClick = { registerViewModel.teleportToLogin(navHostController) }
 				)
 			}
 		}

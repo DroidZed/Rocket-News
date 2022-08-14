@@ -13,6 +13,7 @@
       <module name="RocketNews.features.Register" target="11" />
       <module name="RocketNews.features.Rockets" target="11" />
       <module name="RocketNews.features.SpaceX_Info" target="11" />
+      <module name="RocketNews.libraries.apolloWrapper" target="11" />
       <module name="RocketNews.libraries.Commons" target="11" />
       <module name="RocketNews.libraries.RocketNewsDatabase" target="11" />
       <module name="RocketNews.libraries.RocketNewsTheme" target="11" />

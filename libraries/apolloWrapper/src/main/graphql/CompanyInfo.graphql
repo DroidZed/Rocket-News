@@ -1,5 +1,8 @@
 query CompanyInfo {
     company {
+        name
+        summary
+        valuation
         ceo
         coo
         cto
@@ -19,10 +22,5 @@ query CompanyInfo {
             twitter
             website
         }
-        name
-        summary
-        test_sites
-        valuation
-        vehicles
     }
 }

@@ -1,6 +1,5 @@
 package tech.droidzed.rocketnewsdatabase.repositories
 
-import kotlinx.coroutines.flow.Flow
 import tech.droidzed.rocketnewsdatabase.entities.UserAndArticles
 import tech.droidzed.rocketnewsdatabase.entities.UserDao
 import tech.droidzed.rocketnewsdatabase.entities.UserEntity
@@ -15,8 +14,9 @@ class UserRepository @Inject constructor(private val userDao: UserDao) {
 	 *
 	 * @param user UserEntity - This is the user object that we want to add to the database.
 	 */
-	suspend fun addUserToDatabase(user: UserEntity) {
+	suspend fun addUserToDatabase(user: UserEntity): UserAndArticles? {
 		userDao.create(user)
+		return userDao.getUserByUsername(user.username)
 	}
 
 

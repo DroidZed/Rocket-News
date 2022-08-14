@@ -1,25 +1,36 @@
 package tech.droidzed.apolloclient
 
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import tech.droidzed.apollowrapper.SpaceXRepository
+import tech.droidzed.apollowrapper.repositories.launches.LaunchesRepository
+import javax.inject.Inject
 
 @RunWith(JUnit4::class)
+@HiltAndroidTest
 class LaunchesTest {
+
+	@get:Rule
+	var hiltRule = HiltAndroidRule(this)
 
 	@OptIn(DelicateCoroutinesApi::class)
 	private val mainThreadSurrogate = newSingleThreadContext("Apollo Thread")
+	@Inject
+	lateinit var launchesRepository : LaunchesRepository
 
 	@Before
 	@OptIn(ExperimentalCoroutinesApi::class)
 	fun init() {
+		hiltRule.inject()
 		Dispatchers.setMain(mainThreadSurrogate)
 	}
 
@@ -35,7 +46,7 @@ class LaunchesTest {
 	fun launch_ShouldWork() = runBlocking {
 
 		launch(Dispatchers.Main) {
-			SpaceXRepository.getLaunches().collect { values ->
+			launchesRepository.getLaunches().collect { values ->
 				values.data?.launches?.stream()?.forEach(::println)
 			}
 		}

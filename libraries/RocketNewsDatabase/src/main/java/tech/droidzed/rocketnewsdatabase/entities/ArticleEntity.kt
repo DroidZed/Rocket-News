@@ -11,7 +11,7 @@ data class ArticleEntity(
 	@NonNull
 	@ColumnInfo(name = "id")
 	@PrimaryKey(autoGenerate = true)
-	var id: Long,
+	var id: Long = 0,
 
 	@NonNull
 	var title: String,

@@ -1,54 +1,34 @@
 package tech.droidzed.home.screens
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-
-import tech.droidzed.commons.layout.ComponentStyles
-import tech.droidzed.commons.layout.CustomSurface
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import tech.droidzed.home.components.HomeCard
 
 @Composable
-fun HomeScreen(
-	goLaunches: () -> Unit,
-	goMissions: () -> Unit,
-	goDragons: () -> Unit,
-	goRockets: () -> Unit,
-	goContact: () -> Unit,
-	goProfile: (id: Int) -> Unit,
-	goSpaceXInfo: () -> Unit,
-) {
-	CustomSurface(
-		styles = ComponentStyles()
-	) {
-		Column {
-			Text(text = "Hello there !")
-			Button(
-				onClick = { goLaunches() },
-				content = { Text("Click me to visit Launches") })
-			Button(
-				onClick = { goMissions() },
-				content = { Text("Click me to visit Missions") })
-			Button(
-				onClick = { goRockets() },
-				content = { Text("Click me to visit Rockets") })
-			Button(
-				onClick = { goDragons() },
-				content = { Text("Click me to visit Dragons") })
-			Button(
-				onClick = { goContact() },
-				content = { Text("Click me to visit Contact") })
-			Button(
-				onClick = { goProfile(1) },
-				content = { Text("Click me to go to your profile") })
-			Button(
-				onClick = { goSpaceXInfo() },
-				content = { Text("Click me to go to SpaceX Info") })
+fun HomeScreen(navHostController: NavHostController) {
 
-			LazyColumn {
-				// TODO: add the SpaceX Content here !!
+	val homeViewModel = hiltViewModel<HomeViewModel>()
+
+	Column(modifier = Modifier.fillMaxSize()) {
+
+		LazyColumn(
+			modifier = Modifier.padding(5.dp),
+			userScrollEnabled = true,
+			verticalArrangement = Arrangement.spacedBy(4.dp),
+			contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+			content = {
+				items(homeViewModel.listItems) { item ->
+					HomeCard(item,
+						onClick = { navHostController.navigate(item.route) { launchSingleTop = true  } })
+				}
 			}
-		}
+		)
+
 	}
 }

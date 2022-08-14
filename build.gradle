@@ -8,13 +8,11 @@ buildscript {
 
         // implementation
 
-        protoc_version = "3.14.0"
-        protobuf_plugin_version = '0.8.17'
-        protobuf_javalite_version = '3.18.0'
-
         datastore_version = '1.0.0'
 
         dagger_hilt_version = '2.43.1'
+
+        compose_hilt_navigation_version = '1.0.0'
 
         navigation_compose_version = '2.5.1'
         compose_material_version = '1.2.0'
@@ -23,9 +21,9 @@ buildscript {
         runtime_livedata_version = '1.2.0'
 
         android_core_version = '1.8.0'
-        app_compat_version = '1.4.2'
+        app_compat_version = '1.5.0'
 
-        apollo_runtime_version = '3.4.0'
+        apollo_runtime_version = '3.5.0'
 
         google_material_version = '1.4.0'
 
@@ -39,14 +37,17 @@ buildscript {
         // test implementation
         junit_version = '4.13.2'
         kotlinx_coro_test_version = '1.6.4'
+        hilt_android_c_t_version = '2.38.1'
 
         // debug implementation
         andr_test_ext_junit_version = '1.1.3'
         espresso_core_version = '3.4.0'
+        sqldelight_version =  '1.5.3'
     }
 
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt_version"
+        classpath "com.squareup.sqldelight:gradle-plugin:$sqldelight_version"
     }
 
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.

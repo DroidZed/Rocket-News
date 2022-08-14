@@ -5,16 +5,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavHostController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.runBlocking
 import tech.droidzed.commons.makeToast
 import tech.droidzed.model.AuthenticationResponse
 import tech.droidzed.model.AuthenticationResponseCode
+import tech.droidzed.model.Routes
+import tech.droidzed.rocketnewsdatabase.entities.UserAndArticles
 import tech.droidzed.rocketnewsdatabase.repositories.UserRepository
+import tech.droidzed.sessionmanagement.SessionInterfaceImpl
+import tech.droidzed.sessionmanagement.UserInfo
+import tech.droidzed.utils.HashUtils.hashCheck
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val userRepository: UserRepository) :
+class LoginViewModel @Inject constructor(
+	private val userRepository: UserRepository,
+	private val sessionInterfaceImpl: SessionInterfaceImpl,
+) :
 	ViewModel() {
 
 	// State
@@ -28,18 +37,23 @@ class LoginViewModel @Inject constructor(private val userRepository: UserReposit
 
 	var passwordVisible by mutableStateOf(false)
 
+	private var userObj: UserAndArticles? = null
+
 	// Verification question
 	var randomVerificationTest = generateRandomEquation()
 
-	private fun generateRandomEquation() = "${(2..74).random()} ${"+/*-".random()} ${(2..74).random()}"
+	private fun generateRandomEquation() =
+		"${(2..74).random()} ${"+/*-".random()} ${(2..74).random()}"
 
 	// Operations
 	fun handleLogin(
-		goHome: () -> Unit,
-		context: Context
+		navHostController: NavHostController,
+		context: Context,
 	) {
-
-		if (username.isEmpty() && password.isEmpty())  makeToast(context, AuthenticationResponse.EmptyFields.resp)
+		if (username.isEmpty() && password.isEmpty()) makeToast(
+			context,
+			AuthenticationResponse.EmptyFields.resp
+		)
 
 		when (loginUser().code) {
 
@@ -70,7 +84,17 @@ class LoginViewModel @Inject constructor(private val userRepository: UserReposit
 			AuthenticationResponseCode.SUCCESS -> {
 				if (verifyUserLogin()) {
 					makeToast(context, AuthenticationResponse.Success.resp)
-					goHome()
+					runBlocking {
+						sessionInterfaceImpl.createSession(UserInfo(
+							userObj?.user?.id!!,
+							userObj?.user?.username!!,
+							userObj?.user?.password!!,
+						))
+					}
+					clearForm()
+					navHostController.navigate(Routes.Home.route) {
+						launchSingleTop = true
+					}
 				} else {
 					makeToast(context, AuthenticationResponse.VerifyInput.resp)
 					verifyError = true
@@ -98,18 +122,15 @@ class LoginViewModel @Inject constructor(private val userRepository: UserReposit
 	 */
 	private fun loginUser(): AuthenticationResponse {
 
-		if (username.isEmpty() && password.isEmpty())  return AuthenticationResponse.EmptyFields
+		if (username.isEmpty() && password.isEmpty()) return AuthenticationResponse.EmptyFields
 
-		val userObj = runBlocking { userRepository.findUserByUsername(username) }
+		userObj = runBlocking { userRepository.findUserByUsername(username) }
 
-		if (userObj != null) {
+		if (userObj != null)
 
-			return if (userObj.user.password != password) {
-				AuthenticationResponse.Credentials
-			}
-
-			else AuthenticationResponse.Success
-		}
+			return if (hashCheck(message = password, hash = userObj?.user?.password!!))
+				AuthenticationResponse.Success
+			else AuthenticationResponse.Credentials
 
 		return AuthenticationResponse.Unavailable
 	}
@@ -143,5 +164,13 @@ class LoginViewModel @Inject constructor(private val userRepository: UserReposit
 		}
 
 		return Integer.parseInt(verify) == preCalculatedValue
+	}
+
+	fun teleportToRegister(navHostController: NavHostController) {
+
+		clearForm()
+		navHostController.navigate(Routes.Register.route) {
+			launchSingleTop = true
+		}
 	}
 }

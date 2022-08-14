@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
-    id 'dagger.hilt.android.plugin'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
 }
 
@@ -64,7 +64,9 @@ dependencies {
 
     // libs
     implementation project(':libraries:SharedLib')
+    implementation project(':libraries:Commons')
     implementation project(':libraries:RocketNewsTheme')
+    implementation project(':libraries:SessionManagement')
     implementation project(':libraries:RocketNewsDatabase')
 
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"

@@ -48,6 +48,9 @@ dependencies {
     implementation project(':libraries:RocketNewsTheme')
     implementation project(':libraries:RocketNewsDatabase')
 
+    implementation "androidx.navigation:navigation-compose:$navigation_compose_version"
+    implementation "androidx.hilt:hilt-navigation-compose:$compose_hilt_navigation_version"
+
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_cor_version"
     implementation "androidx.appcompat:appcompat:$app_compat_version"
     implementation "androidx.core:core-ktx:$android_core_version"

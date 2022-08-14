@@ -1,7 +1,6 @@
 package tech.droidzed.rocketnewsdatabase.entities
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 import tech.droidzed.rocketnewsdatabase.EntityDao
 
 @Dao

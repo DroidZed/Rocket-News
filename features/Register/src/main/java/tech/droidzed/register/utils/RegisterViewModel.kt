@@ -5,12 +5,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import tech.droidzed.commons.makeToast
 import tech.droidzed.model.ResponseType
+import tech.droidzed.model.Routes
+import tech.droidzed.rocketnewsdatabase.entities.UserAndArticles
 import tech.droidzed.rocketnewsdatabase.entities.UserEntity
 import tech.droidzed.rocketnewsdatabase.repositories.UserRepository
+import tech.droidzed.sessionmanagement.SessionInterface
+import tech.droidzed.sessionmanagement.UserInfo
+import tech.droidzed.utils.HashUtils.hashString
 import javax.inject.Inject
 
 /**
@@ -26,7 +35,10 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(private val userRepository: UserRepository) :
+class RegisterViewModel @Inject constructor(
+	private val userRepository: UserRepository,
+	private val sessionInterface: SessionInterface,
+) :
 	ViewModel() {
 
 	// State
@@ -39,10 +51,15 @@ class RegisterViewModel @Inject constructor(private val userRepository: UserRepo
 	var usernameError by mutableStateOf(false)
 	var passwordError = password != confirmPassword
 
-	// Operations on state
-	fun registerUser(goHome: () -> Unit, context: Context) {
+	private var userExists = false
+	private var userObject: UserAndArticles? = null
 
-		when (validateInput()) {
+	// Operations on state
+	fun registerUser(navHostController: NavHostController, context: Context) {
+
+		this.checkIfUserExistsInDatabase()
+
+		when (this.validateInput()) {
 
 			ResponseType.EMPTY -> {
 				makeToast(context, "Empty credentials!")
@@ -78,12 +95,26 @@ class RegisterViewModel @Inject constructor(private val userRepository: UserRepo
 
 			ResponseType.VALID -> {
 
-				handleRegister()
-				clearForm()
-				goHome()
+				this.registerUser()
+				this.clearForm()
+				runBlocking {
+					sessionInterface.createSession(UserInfo(
+						userObject?.user?.id!!,
+						userObject?.user?.username!!,
+						userObject?.user?.password!!))
+				}
+				navHostController.navigate(Routes.Home.route) {
+					launchSingleTop = true
+				}
 			}
 		}
 
+	}
+
+	fun teleportToLogin(navHostController: NavHostController) {
+		navHostController.navigate(Routes.Login.route) {
+			launchSingleTop = true
+		}
 	}
 
 	private fun clearForm() {
@@ -94,17 +125,17 @@ class RegisterViewModel @Inject constructor(private val userRepository: UserRepo
 		confirmPassword = ""
 	}
 
-	private fun checkIfUserExistsInDatabase(username: String): Boolean {
+	private fun checkIfUserExistsInDatabase() {
 
-		return runBlocking {
-			userRepository.findUserByUsername(username)
-		} != null
+		viewModelScope.launch(Dispatchers.IO) {
+			userExists = userRepository.findUserByUsername(username) != null
+		}
 	}
 
-	private fun handleRegister() {
+	private fun registerUser() {
 
-		runBlocking {
-			userRepository.addUserToDatabase(UserEntity(username, password))
+		userObject = runBlocking {
+			userRepository.addUserToDatabase(UserEntity(username, hashString(password)))
 		}
 	}
 
@@ -120,7 +151,9 @@ class RegisterViewModel @Inject constructor(private val userRepository: UserRepo
 			username.isEmpty() && password.isEmpty() -> ResponseType.EMPTY
 
 			// invalid username and password
-			usernameInvalidator.containsMatchIn(username) and !passwordValidator.containsMatchIn(password) -> ResponseType.BOTH
+			usernameInvalidator.containsMatchIn(username) and !passwordValidator.containsMatchIn(
+				password
+			) -> ResponseType.BOTH
 
 			// invalid username
 			usernameInvalidator.containsMatchIn(username) -> ResponseType.USERNAME
@@ -129,10 +162,11 @@ class RegisterViewModel @Inject constructor(private val userRepository: UserRepo
 			!passwordValidator.containsMatchIn(password) -> ResponseType.PASSWORD
 
 			// account already exists
-			checkIfUserExistsInDatabase(username) -> ResponseType.ALREADY_EXISTS
+			userExists -> ResponseType.ALREADY_EXISTS
 
 			else -> ResponseType.VALID
 		}
 	}
+
 
 }

@@ -8,20 +8,12 @@ sealed class Routes(val route: String) {
 	object Home : Routes("home")
 	object Contact : Routes("contact")
 	object SpaceXInfo : Routes("spaceX")
+	object Profile : Routes("profile")
+	object Bookmarks : Routes("bookmarks")
 
 	// detailed screens
-	object Bookmarks : Routes("bookmarks") { var id = 0 }
-	object Profile : Routes("profile") { var id = 0 }
-	object Dragons : Routes("dragons") { var id = "id" }
-	object Launches : Routes("launches") { var id = "id" }
-	object Missions : Routes("missions") { var id = "id" }
-	object Rockets : Routes("rockets") { var id = "id" }
-
-	// build navigation path (for screen navigation)
-	fun withArgs(vararg args: String): String {
-		return buildString {
-			append(route)
-			args.forEach{ arg -> append("/$arg") }
-		}
-	}
+	object Dragons : Routes("dragons")
+	object Launches : Routes("launches")
+	object Missions : Routes("missions")
+	object Rockets : Routes("rockets")
 }

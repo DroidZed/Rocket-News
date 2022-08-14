@@ -2,7 +2,10 @@ package tech.droidzed.model
 
 import tech.droidzed.model.AuthenticationResponseCode.*
 
-sealed class AuthenticationResponse(val resp: String, val code: AuthenticationResponseCode) {
+sealed class AuthenticationResponse(
+	val resp: String,
+	val code: AuthenticationResponseCode
+) {
 	object Unavailable : AuthenticationResponse("User not found !", NOT_FOUND)
 	object Credentials : AuthenticationResponse("Wrong credentials !", WRONG_CREDENTIALS)
 	object Success : AuthenticationResponse("Success !", SUCCESS)
